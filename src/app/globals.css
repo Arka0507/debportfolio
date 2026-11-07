@@ -1,0 +1,288 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --accent: #ff3b2f;
+    --accent-hover: #e02d22;
+    --accent-glow: rgba(255, 59, 47, 0.25);
+    --bg-dark: #09090b;
+    --bg-card: #121215;
+    --border-zinc: #27272a;
+    --border-subtle: #1f1f23;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #09090b;
+    color: #f4f4f5;
+  }
+
+  body {
+    background-color: #09090b;
+    color: #e4e4e7;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: #ff3b2f;
+    color: #ffffff;
+  }
+}
+
+/* Build-mode initial hide: hides elements before robot cursors reach them */
+html.build-mode [data-build]:not([data-built="true"]):not([data-building="true"]) {
+  visibility: hidden;
+}
+
+/* Font helpers */
+.font-anton {
+  font-family: var(--font-anton), Impact, sans-serif;
+}
+
+.font-sans {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-geist-mono), monospace;
+}
+
+.font-caveat {
+  font-family: var(--font-caveat-brush), cursive;
+}
+
+/* Giant PORTFOLIO metallic text with slow sheen */
+.portfolio-metallic-text {
+  font-family: var(--font-anton), Impact, sans-serif;
+  background: linear-gradient(180deg, #ff3b2f 0%, #aa1c14 45%, #2a0806 82%, #09090b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  position: relative;
+  user-select: none;
+}
+
+.portfolio-sheen-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 120, 110, 0.25) 54%,
+    transparent 65%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: metallicSheen 8s ease-in-out infinite;
+}
+
+@keyframes metallicSheen {
+  0% {
+    background-position: 200% 0;
+  }
+  50% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Headshot styling */
+.headshot-bw {
+  filter: grayscale(100%) contrast(1.15) brightness(1.05);
+  mask-image: linear-gradient(to bottom, black 65%, transparent 98%);
+  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 98%);
+}
+
+.headshot-glow {
+  background: radial-gradient(circle at 50% 55%, rgba(255, 59, 47, 0.28) 0%, rgba(255, 59, 47, 0.08) 50%, transparent 75%);
+}
+
+/* Robot animations */
+@keyframes robotBlink {
+  0%, 45%, 55%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.1);
+  }
+}
+
+.robot-led-blink {
+  animation: robotBlink 3.2s infinite ease-in-out;
+  transform-origin: center;
+}
+
+@keyframes antennaPulse {
+  0%, 100% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 1px currentColor);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px currentColor);
+  }
+}
+
+.robot-antenna-pulse {
+  animation: antennaPulse 1.8s infinite ease-in-out;
+}
+
+/* Content build animations */
+@keyframes buildPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.93) translateY(6px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.015) translateY(-1px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-build-pop {
+  animation: buildPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes buildWipe {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.4;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+.animate-build-wipe {
+  animation: buildWipe 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Endless marquee */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 38s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Typing cursor indicator */
+.typing-cursor::after {
+  content: "▋";
+  color: #ff3b2f;
+  margin-left: 2px;
+  animation: typingCursorBlink 0.8s infinite;
+}
+
+@keyframes typingCursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Button interactive state utilities */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #ff3b2f;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #e02d22;
+  box-shadow: 0 0 16px rgba(255, 59, 47, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  background-color: #c7241a;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid #ff3b2f;
+  outline-offset: 2px;
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #18181b;
+  color: #f4f4f5;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  border: 1px solid #27272a;
+  text-decoration: none;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #27272a;
+  border-color: #3f3f46;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+  background-color: #1f1f23;
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid #ff3b2f;
+  outline-offset: 2px;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
